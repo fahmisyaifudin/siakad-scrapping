@@ -5,8 +5,6 @@ on:
   push:
     branches: ["main"]
 env:
-  SSO_NRP: ${{ vars.SSO_NRP }}
-  SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
 
@@ -16,13 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cypress-io/github-action@v6
+        name: Scrapping data from SIAKAD
         env:
           SSO_NRP: ${{ vars.SSO_NRP }}
           SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
-      - name: Scrapping data from SIAKAD
-        run: |
-          npm install
-          npm run cy:run
       - name: Upload data file as artifact
         uses: actions/upload-artifact@v3
         with:
