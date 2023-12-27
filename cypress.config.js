@@ -10,7 +10,7 @@ module.exports = defineConfig({
         },
       });
 
-      const configWithDotenv = require("dotenv").config();
+      const configWithDotenv = require("dotenv").config({ silent: true });
       if (configWithDotenv.error) {
         throw configWithDotenv.error;
       }
