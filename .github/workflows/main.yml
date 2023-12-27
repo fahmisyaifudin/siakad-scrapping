@@ -13,16 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Print env variable
+        run: |
+          echo "SSO_NRP: ${{ vars.SSO_NRP }}"
+          echo "SSO_NRP: ${{ secrets.SSO_NRP }}"
+          echo "SSO_NRP: ${{ env.SSO_NRP }}"
+          echo "TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}"
       - uses: cypress-io/github-action@v6
         name: Scrapping data from SIAKAD
         env:
           SSO_NRP: ${{ vars.SSO_NRP }}
           SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
-      - name: Print env variable
-        run: |
-          echo "SSO_NRP: ${{ vars.SSO_NRP }}"
-          echo "SSO_NRP: ${{ env.SSO_NRP }}"
-          echo "SSO_NRP: ${{ env.SSO_NRP }}"
       - name: Upload data file as artifact
         uses: actions/upload-artifact@v3
         with:
