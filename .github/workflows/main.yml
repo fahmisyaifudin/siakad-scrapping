@@ -7,6 +7,7 @@ on:
 env:
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  CYPRESS_SSO_NRP: ${{ vars.SSO_NRP }}
 
 jobs:
   get_data:
@@ -18,12 +19,12 @@ jobs:
           echo "SSO_NRP: ${{ vars.SSO_NRP }}"
           echo "SSO_NRP: ${{ secrets.SSO_NRP }}"
           echo "SSO_NRP: ${{ env.SSO_NRP }}"
-          echo "TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}"
+          echo "TELEGRAM_CHAT_ID: ${{ env.TELEGRAM_CHAT_ID }}"
       - uses: cypress-io/github-action@v6
         name: Scrapping data from SIAKAD
         env:
-          SSO_NRP: ${{ vars.SSO_NRP }}
-          SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
+          CYPRESS_SSO_NRP: ${{ vars.SSO_NRP }}
+          CYPRESS_SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
       - name: Upload data file as artifact
         uses: actions/upload-artifact@v3
         with:
