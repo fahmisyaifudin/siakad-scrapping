@@ -2,11 +2,11 @@ name: Notification Pipeline
 on:
   schedule:
     - cron: "0 * * * *"
-  push:
-    branches: ["main"]
 env:
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+  CYPRESS_SSO_NRP: ${{ vars.SSO_NRP }}
+  CYPRESS_SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
 
 jobs:
   get_data:
@@ -15,9 +15,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: cypress-io/github-action@v6
         name: Scrapping data from SIAKAD
-        env:
-          SSO_NRP: ${{ secrets.SSO_NRP }}
-          SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
       - name: Upload data file as artifact
         uses: actions/upload-artifact@v3
         with:
