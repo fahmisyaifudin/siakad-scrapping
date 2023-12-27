@@ -10,9 +10,7 @@ module.exports = defineConfig({
         },
       });
 
-      const configWithDotenv = require("dotenv").config({
-        path: __dirname + "/.env",
-      });
+      const configWithDotenv = require("dotenv").config();
       if (configWithDotenv.error) {
         throw configWithDotenv.error;
       }

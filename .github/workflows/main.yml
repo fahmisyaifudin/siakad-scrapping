@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - uses: cypress-io/github-action@v6
+        env:
+          SSO_NRP: ${{ vars.SSO_NRP }}
+          SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
       - name: Scrapping data from SIAKAD
         run: |
           npm install
