@@ -1,0 +1,47 @@
+name: Notification Pipeline
+on:
+  push:
+    branches: ["main"]
+  # schedule:
+  #   - cron: "0 * * * *"
+env:
+  SSO_NRP: ${{ vars.SSO_NRP }}
+  SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+
+jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Scrapping data from SIAKAD
+        run: |
+          npm install
+          npm run cy:run
+      - name: Upload data file as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-data
+          path: dist/
+
+  send_notification:
+    needs: get_data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Download static json artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: my-data
+          path: dist/
+      - name: Send notification via telegram
+        run: |
+          npm install
+          npm run start
