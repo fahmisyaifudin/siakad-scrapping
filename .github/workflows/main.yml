@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: "0 * * * *"
   push:
-    branches: ["main"]
+    branches: ["main", "dev"]
 env:
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -16,8 +16,13 @@ jobs:
       - uses: cypress-io/github-action@v6
         name: Scrapping data from SIAKAD
         env:
-          SSO_NRP: ${{ secrets.SSO_NRP }}
-          SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
+          SSO_NRP: ${{ vars.SSO_NRP }}
+          SSO_PASSWORD: ${{ vars.SSO_PASSWORD }}
+      - name: Print env variable
+        run: |
+          echo "SSO_NRP: ${{ vars.SSO_NRP }}"
+          echo "SSO_NRP: ${{ env.SSO_NRP }}"
+          echo "SSO_NRP: ${{ env.SSO_NRP }}"
       - name: Upload data file as artifact
         uses: actions/upload-artifact@v3
         with:
