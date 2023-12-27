@@ -1,9 +1,9 @@
 name: Notification Pipeline
 on:
+  schedule:
+    - cron: "0 * * * *"
   push:
-    branches: ["*"]
-  # schedule:
-  #   - cron: "0 * * * *"
+    branches: ["main", "dev"]
 env:
   SSO_NRP: ${{ vars.SSO_NRP }}
   SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
