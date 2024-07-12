@@ -3,15 +3,19 @@ const axios = require("axios");
 require("dotenv").config();
 
 const fileData = fs.readFileSync("./dist/nilai.json");
+const arraySemester = process.env.SEMESTER.split(" ");
 
 const nilaiData = JSON.parse(fileData);
-const filterNilai = nilaiData.slice(3, -2).map((nilai) => {
+const indexNilai = nilaiData.findIndex(
+  (x) => x[0].includes(arraySemester[0]) && x[0].includes(arraySemester[1])
+);
+const filterNilai = nilaiData.slice(indexNilai + 2, -2).map((nilai) => {
   const [kode_mk, matkul, sks, nilai_huruf] = nilai;
   return {
-    kode_mk,
-    matkul,
-    sks,
-    nilai_huruf,
+    kode_mk: kode_mk.trim(),
+    matkul: matkul.trim(),
+    sks: sks.trim(),
+    nilai_huruf: nilai_huruf.trim(),
   };
 });
 
